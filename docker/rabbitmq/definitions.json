@@ -1,0 +1,318 @@
+{
+  "rabbit_version": "3.13.0",
+  "rabbitmq_version": "3.13.0",
+  "users": [
+    {
+      "name": "admin",
+      "password_hash": "JBxV3AHRiN6FJjYZJJpBLqLHkLxnLGqGqJJ0pNZvN6pXLYRG",
+      "hashing_algorithm": "rabbit_password_hashing_sha256",
+      "tags": ["administrator"]
+    }
+  ],
+  "vhosts": [
+    {
+      "name": "/"
+    }
+  ],
+  "permissions": [
+    {
+      "user": "admin",
+      "vhost": "/",
+      "configure": ".*",
+      "write": ".*",
+      "read": ".*"
+    }
+  ],
+  "exchanges": [
+    {
+      "name": "orders.direct",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "orders.fanout",
+      "vhost": "/",
+      "type": "fanout",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "orders.topic",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "orders.headers",
+      "vhost": "/",
+      "type": "headers",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "payments.dlx",
+      "vhost": "/",
+      "type": "direct",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    },
+    {
+      "name": "inventory.topic",
+      "vhost": "/",
+      "type": "topic",
+      "durable": true,
+      "auto_delete": false,
+      "internal": false,
+      "arguments": {}
+    }
+  ],
+  "queues": [
+    {
+      "name": "orders.high",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-max-priority": 10
+      }
+    },
+    {
+      "name": "orders.normal",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "orders.analytics",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "orders.audit",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "orders.notification",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "orders.us",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "orders.eu",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "orders.premium",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "orders.mobile",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "inventory.lowstock",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "inventory.check",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "payments.process",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "payments.dlx",
+        "x-dead-letter-routing-key": "payment.failed"
+      }
+    },
+    {
+      "name": "payments.retry",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {
+        "x-dead-letter-exchange": "orders.direct",
+        "x-dead-letter-routing-key": "payment.process",
+        "x-message-ttl": 30000
+      }
+    },
+    {
+      "name": "payments.dead",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    },
+    {
+      "name": "shipping.create",
+      "vhost": "/",
+      "durable": true,
+      "auto_delete": false,
+      "arguments": {}
+    }
+  ],
+  "bindings": [
+    {
+      "source": "orders.direct",
+      "vhost": "/",
+      "destination": "orders.high",
+      "destination_type": "queue",
+      "routing_key": "order.high",
+      "arguments": {}
+    },
+    {
+      "source": "orders.direct",
+      "vhost": "/",
+      "destination": "orders.normal",
+      "destination_type": "queue",
+      "routing_key": "order.normal",
+      "arguments": {}
+    },
+    {
+      "source": "orders.fanout",
+      "vhost": "/",
+      "destination": "orders.analytics",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "orders.fanout",
+      "vhost": "/",
+      "destination": "orders.audit",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "orders.fanout",
+      "vhost": "/",
+      "destination": "orders.notification",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {}
+    },
+    {
+      "source": "orders.topic",
+      "vhost": "/",
+      "destination": "orders.us",
+      "destination_type": "queue",
+      "routing_key": "orders.us.*",
+      "arguments": {}
+    },
+    {
+      "source": "orders.topic",
+      "vhost": "/",
+      "destination": "orders.eu",
+      "destination_type": "queue",
+      "routing_key": "orders.eu.*",
+      "arguments": {}
+    },
+    {
+      "source": "orders.headers",
+      "vhost": "/",
+      "destination": "orders.premium",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {
+        "x-match": "any",
+        "user_tier": "premium"
+      }
+    },
+    {
+      "source": "orders.headers",
+      "vhost": "/",
+      "destination": "orders.mobile",
+      "destination_type": "queue",
+      "routing_key": "",
+      "arguments": {
+        "x-match": "any",
+        "device": "mobile"
+      }
+    },
+    {
+      "source": "inventory.topic",
+      "vhost": "/",
+      "destination": "inventory.lowstock",
+      "destination_type": "queue",
+      "routing_key": "inventory.*.low",
+      "arguments": {}
+    },
+    {
+      "source": "inventory.topic",
+      "vhost": "/",
+      "destination": "inventory.check",
+      "destination_type": "queue",
+      "routing_key": "inventory.*.check",
+      "arguments": {}
+    },
+    {
+      "source": "payments.dlx",
+      "vhost": "/",
+      "destination": "payments.retry",
+      "destination_type": "queue",
+      "routing_key": "payment.retry",
+      "arguments": {}
+    },
+    {
+      "source": "payments.dlx",
+      "vhost": "/",
+      "destination": "payments.dead",
+      "destination_type": "queue",
+      "routing_key": "payment.failed",
+      "arguments": {}
+    },
+    {
+      "source": "orders.topic",
+      "vhost": "/",
+      "destination": "shipping.create",
+      "destination_type": "queue",
+      "routing_key": "shipping.#",
+      "arguments": {}
+    }
+  ]
+}

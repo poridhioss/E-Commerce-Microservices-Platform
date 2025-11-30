@@ -1,0 +1,63 @@
+{
+  "dashboard": {
+    "title": "Microservices Health",
+    "tags": ["microservices", "health"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Service Health Status",
+        "type": "stat",
+        "gridPos": {"h": 8, "w": 24, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "up{job=~\".*-service|api-gateway\"}",
+            "legendFormat": "{{job}}"
+          }
+        ],
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "textMode": "value_and_name"
+        }
+      },
+      {
+        "id": 2,
+        "title": "Orders Processed",
+        "type": "stat",
+        "gridPos": {"h": 6, "w": 8, "x": 0, "y": 8},
+        "description": "Total orders processed by Order Service"
+      },
+      {
+        "id": 3,
+        "title": "Payments Success Rate",
+        "type": "gauge",
+        "gridPos": {"h": 6, "w": 8, "x": 8, "y": 8},
+        "description": "Payment success percentage"
+      },
+      {
+        "id": 4,
+        "title": "Notifications Sent",
+        "type": "stat",
+        "gridPos": {"h": 6, "w": 8, "x": 16, "y": 8},
+        "description": "Total notifications sent"
+      },
+      {
+        "id": 5,
+        "title": "Active Shipments",
+        "type": "stat",
+        "gridPos": {"h": 6, "w": 12, "x": 0, "y": 14},
+        "description": "Number of active shipments"
+      },
+      {
+        "id": 6,
+        "title": "Audit Records",
+        "type": "stat",
+        "gridPos": {"h": 6, "w": 12, "x": 12, "y": 14},
+        "description": "Total audit records logged"
+      }
+    ],
+    "schemaVersion": 36,
+    "version": 1
+  }
+}

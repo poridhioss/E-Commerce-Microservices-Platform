@@ -1,0 +1,73 @@
+{
+  "dashboard": {
+    "title": "RabbitMQ Overview",
+    "tags": ["rabbitmq", "messaging"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Queue Messages",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0},
+        "targets": [
+          {
+            "expr": "rabbitmq_queue_messages",
+            "legendFormat": "{{queue}}"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Message Rates",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0},
+        "targets": [
+          {
+            "expr": "rate(rabbitmq_queue_messages_published_total[5m])",
+            "legendFormat": "Published - {{queue}}"
+          },
+          {
+            "expr": "rate(rabbitmq_queue_messages_delivered_total[5m])",
+            "legendFormat": "Delivered - {{queue}}"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Consumer Count",
+        "type": "graph",
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8},
+        "targets": [
+          {
+            "expr": "rabbitmq_queue_consumers",
+            "legendFormat": "{{queue}}"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Connection Count",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 12, "y": 8},
+        "targets": [
+          {
+            "expr": "rabbitmq_connections"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Channel Count",
+        "type": "stat",
+        "gridPos": {"h": 4, "w": 6, "x": 18, "y": 8},
+        "targets": [
+          {
+            "expr": "rabbitmq_channels"
+          }
+        ]
+      }
+    ],
+    "schemaVersion": 36,
+    "version": 1
+  }
+}
